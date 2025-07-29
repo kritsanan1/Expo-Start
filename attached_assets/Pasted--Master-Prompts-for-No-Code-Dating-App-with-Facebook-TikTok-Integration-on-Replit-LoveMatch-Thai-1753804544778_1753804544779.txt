@@ -1,0 +1,85 @@
+# Master Prompts for No-Code Dating App with Facebook & TikTok Integration on Replit (LoveMatch Thailand)
+
+## Objective
+Create a stunning dating app with social media integration (Facebook, TikTok), featuring short video profiles and matching, built on Replit.com using AI Agent, targeting Thai users with sustainable revenue.
+
+## Workflow
+1. **User Interface**
+   - Header with "LoveMatch Thailand" and status (e.g., "Active Matches: 1,000+").
+   - Navigation tabs: "Home", "Discover", "Video Profiles", "Chat", "Profile", "Settings".
+   - On "Home" tab: Welcome, quick match, and social media sync options.
+   - On "Discover" tab: Swipe-based matching with filters (age, location, interests).
+   - On "Video Profiles" tab: Upload and view 10-30 second video intros.
+   - On "Chat" tab: Secure messaging for matched users with read receipts.
+   - On "Profile" tab: Editable profile with photos, bio, video, and social links.
+   - On "Settings" tab: Privacy, notification, and social media sync settings.
+
+2. **Features**
+   - **Social Media Integration**:
+     - **Facebook**: Sync friends list, profile photos, and interests for matching credibility.
+     - **TikTok**: Import short videos or create new 10-30 sec clips for profiles, leveraging TikTok’s video style.
+   - **Video Profiles**: Record/upload short videos to showcase personality, with editing tools (filters, music).
+   - **Matching Algorithm**: Swipe right/left, match based on location, interests, and video engagement.
+   - **Messaging**: Real-time chat with emoji/photo support for matched users.
+   - **Geolocation**: Show matches within 50 km, adjustable by user.
+   - **Safety**: Report/block users, verify via Facebook/TikTok login.
+   - **Notifications**: Alerts for matches, messages, and video views.
+
+3. **Design**
+   - Use gradients (#FF6B6B to #4ECDC4) with a clean white background.
+   - Apply swipe animations and video player styling inspired by TikTok.
+   - Use Poppins font and high-quality icons for a modern look.
+   - Optimize for mobile with large, tappable controls.
+
+4. **Data Structure**
+   - **Users**: Fields - Email, Name, Password, Photos, Video URL, Interests, Location, Preferences, Facebook/TikTok IDs, Match History.
+   - **Matches**: Fields - User1 ID, User2 ID, Status, Date Matched.
+   - **Messages**: Fields - Sender ID, Receiver ID, Content, Timestamp, Read Status.
+   - **Videos**: Fields - User ID, Video URL, Duration, Views, Date Uploaded.
+
+5. **Integrations**
+   - **Facebook**: Use Facebook Graph API via Replit for login, friend data, and photo import.
+   - **TikTok**: Integrate TikTok API for video import or use Replit’s JS to embed video upload (pending API access).
+   - **Geolocation**: HTML5 Geolocation API.
+   - **Storage**: Replit Database or JSON for user/video data.
+   - **Notifications**: Basic push via Replit hosting.
+
+6. **Actions**
+   - On "Sync Facebook": Import profile data and friends for matching.
+   - On "Upload Video": Record or import 10-30 sec video, save to profile.
+   - On "Swipe": Log preference, match if mutual, notify users.
+   - On "Send Message": Store in database, update status.
+   - On "Boost": Increase video/profile visibility for 24 hours.
+
+## Revenue Strategies
+1. **Freemium Model**
+   - Free: 10 swipes/day, 1 video upload, basic chat.
+   - Premium ($2-5/month): Unlimited swipes, video editing tools, see who viewed your video.
+
+2. **In-App Purchases**
+   - Sell virtual gifts (e.g., hearts, $1 each) or video boosts ($2/24 hrs).
+   - Offer premium filters/music for videos ($3 one-time).
+
+3. **Advertising**
+   - Display non-intrusive ads (e.g., dating services) for free users.
+   - Earn $0.50-$2 per 1,000 impressions.
+
+4. **Affiliate Marketing**
+   - Partner with local brands (e.g., restaurants, travel), earning 5-10% per referral via video links.
+
+5. **Subscription Tiers**
+   - Basic Premium: $2/month (unlimited swipes).
+   - Gold Premium: $5/month (all features + TikTok video highlights).
+
+## Development on Replit
+- **Setup**: Create a new Replit with "HTML, CSS, JS" template.
+- **AI Agent Use**: Prompt "Build a dating app with swipe, video upload, and Facebook/TikTok integration using HTML, CSS, JS."
+- **MVP**: Start with profiles, swipes, video upload, and basic Facebook sync.
+- **Deployment**: Host on Replit, test with 5-10 users.
+- **Monetization**: Add Stripe via Replit plugins for payments.
+
+## Notes
+- Ensure PDPA compliance for data privacy in Thailand.
+- Test video upload and social sync with Thai users.
+- Start with MVP, scale with premium features.
+- Upgrade Replit plan (~$7-20/month) if resource limits are hit.
