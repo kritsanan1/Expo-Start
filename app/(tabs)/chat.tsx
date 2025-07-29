@@ -1,9 +1,15 @@
-
-import { useState } from 'react';
-import { StyleSheet, FlatList, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useState } from "react";
+import {
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 interface Match {
   id: string;
@@ -23,42 +29,62 @@ interface Message {
 
 const mockMatches: Match[] = [
   {
-    id: '1',
-    name: 'Anna',
-    lastMessage: 'Hey! How are you doing? 😊',
-    timestamp: '2 min ago',
+    id: "1",
+    name: "Anna",
+    lastMessage: "Hey! How are you doing? 😊",
+    timestamp: "2 min ago",
     unreadCount: 2,
-    avatar: '👩‍🦰',
+    avatar: "👩‍🦰",
   },
   {
-    id: '2',
-    name: 'Niran',
-    lastMessage: 'That photo was amazing!',
-    timestamp: '1 hour ago',
+    id: "2",
+    name: "Niran",
+    lastMessage: "That photo was amazing!",
+    timestamp: "1 hour ago",
     unreadCount: 0,
-    avatar: '👨‍💼',
+    avatar: "👨‍💼",
   },
   {
-    id: '3',
-    name: 'Ploy',
-    lastMessage: 'Let\'s meet for coffee sometime ☕',
-    timestamp: '3 hours ago',
+    id: "3",
+    name: "Ploy",
+    lastMessage: "Let's meet for coffee sometime ☕",
+    timestamp: "3 hours ago",
     unreadCount: 1,
-    avatar: '👩‍🎨',
+    avatar: "👩‍🎨",
   },
 ];
 
 const mockMessages: Message[] = [
-  { id: '1', text: 'Hi there! 👋', timestamp: '10:30 AM', isOwn: false },
-  { id: '2', text: 'Hello! Nice to meet you!', timestamp: '10:32 AM', isOwn: true },
-  { id: '3', text: 'I saw your video profile, you seem really fun!', timestamp: '10:33 AM', isOwn: false },
-  { id: '4', text: 'Thank you! I love your travel photos 📸', timestamp: '10:35 AM', isOwn: true },
-  { id: '5', text: 'Hey! How are you doing? 😊', timestamp: '2 min ago', isOwn: false },
+  { id: "1", text: "Hi there! 👋", timestamp: "10:30 AM", isOwn: false },
+  {
+    id: "2",
+    text: "Hello! Nice to meet you!",
+    timestamp: "10:32 AM",
+    isOwn: true,
+  },
+  {
+    id: "3",
+    text: "I saw your video profile, you seem really fun!",
+    timestamp: "10:33 AM",
+    isOwn: false,
+  },
+  {
+    id: "4",
+    text: "Thank you! I love your travel photos 📸",
+    timestamp: "10:35 AM",
+    isOwn: true,
+  },
+  {
+    id: "5",
+    text: "Hey! How are you doing? 😊",
+    timestamp: "2 min ago",
+    isOwn: false,
+  },
 ];
 
 export default function ChatScreen() {
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>(mockMessages);
 
   const sendMessage = () => {
@@ -66,17 +92,20 @@ export default function ChatScreen() {
       const message: Message = {
         id: Date.now().toString(),
         text: newMessage,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
         isOwn: true,
       };
       setMessages([...messages, message]);
-      setNewMessage('');
+      setNewMessage("");
     }
   };
 
   const renderMatch = ({ item }: { item: Match }) => (
-    <TouchableOpacity 
-      style={styles.matchItem} 
+    <TouchableOpacity
+      style={styles.matchItem}
       onPress={() => setSelectedMatch(item)}
     >
       <ThemedText style={styles.avatar}>{item.avatar}</ThemedText>
@@ -90,7 +119,9 @@ export default function ChatScreen() {
         <ThemedText style={styles.timestamp}>{item.timestamp}</ThemedText>
         {item.unreadCount > 0 && (
           <ThemedView style={styles.unreadBadge}>
-            <ThemedText style={styles.unreadCount}>{item.unreadCount}</ThemedText>
+            <ThemedText style={styles.unreadCount}>
+              {item.unreadCount}
+            </ThemedText>
           </ThemedView>
         )}
       </ThemedView>
@@ -98,14 +129,18 @@ export default function ChatScreen() {
   );
 
   const renderMessage = ({ item }: { item: Message }) => (
-    <ThemedView style={[
-      styles.messageContainer,
-      item.isOwn ? styles.ownMessage : styles.otherMessage
-    ]}>
-      <ThemedText style={[
-        styles.messageText,
-        item.isOwn ? styles.ownMessageText : styles.otherMessageText
-      ]}>
+    <ThemedView
+      style={[
+        styles.messageContainer,
+        item.isOwn ? styles.ownMessage : styles.otherMessage,
+      ]}
+    >
+      <ThemedText
+        style={[
+          styles.messageText,
+          item.isOwn ? styles.ownMessageText : styles.otherMessageText,
+        ]}
+      >
         {item.text}
       </ThemedText>
       <ThemedText style={styles.messageTimestamp}>{item.timestamp}</ThemedText>
@@ -114,10 +149,10 @@ export default function ChatScreen() {
 
   if (selectedMatch) {
     return (
-      <LinearGradient colors={['#FF6B6B', '#4ECDC4']} style={styles.container}>
+      <LinearGradient colors={["#FF6B6B", "#4ECDC4"]} style={styles.container}>
         {/* Chat Header */}
         <ThemedView style={styles.chatHeader}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.backButton}
             onPress={() => setSelectedMatch(null)}
           >
@@ -139,8 +174,8 @@ export default function ChatScreen() {
         />
 
         {/* Message Input */}
-        <KeyboardAvoidingView 
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.inputContainer}
         >
           <TextInput
@@ -159,11 +194,15 @@ export default function ChatScreen() {
   }
 
   return (
-    <LinearGradient colors={['#FF6B6B', '#4ECDC4']} style={styles.container}>
+    <LinearGradient colors={["#FF6B6B", "#4ECDC4"]} style={styles.container}>
       {/* Header */}
       <ThemedView style={styles.header}>
-        <ThemedText type="title" style={styles.headerTitle}>Messages 💬</ThemedText>
-        <ThemedText style={styles.headerSubtitle}>Chat with your matches</ThemedText>
+        <ThemedText type="title" style={styles.headerTitle}>
+          Messages 💬
+        </ThemedText>
+        <ThemedText style={styles.headerSubtitle}>
+          Chat with your matches
+        </ThemedText>
       </ThemedView>
 
       {/* Matches List */}
@@ -184,34 +223,34 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     marginHorizontal: 20,
     padding: 15,
     borderRadius: 15,
   },
   headerTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FF6B6B',
+    fontWeight: "bold",
+    color: "#FF6B6B",
   },
   headerSubtitle: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
   },
   matchesList: {
     flex: 1,
     marginHorizontal: 20,
   },
   matchItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 15,
     marginBottom: 10,
     borderRadius: 15,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -226,39 +265,39 @@ const styles = StyleSheet.create({
   },
   matchName: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 5,
   },
   lastMessage: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
   },
   matchMeta: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   timestamp: {
     fontSize: 12,
-    color: '#999',
+    color: "#999",
     marginBottom: 5,
   },
   unreadBadge: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: "#FF6B6B",
     borderRadius: 10,
     paddingHorizontal: 6,
     paddingVertical: 2,
     minWidth: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   unreadCount: {
-    color: 'white',
+    color: "white",
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   chatHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     marginHorizontal: 20,
     marginBottom: 10,
     padding: 15,
@@ -269,15 +308,15 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 16,
-    color: '#FF6B6B',
-    fontWeight: 'bold',
+    color: "#FF6B6B",
+    fontWeight: "bold",
   },
   chatTitle: {
     flex: 1,
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "center",
   },
   videoCallButton: {
     padding: 5,
@@ -293,38 +332,38 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   messageContainer: {
-    maxWidth: '80%',
+    maxWidth: "80%",
     marginVertical: 5,
     padding: 12,
     borderRadius: 20,
   },
   ownMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#4ECDC4',
+    alignSelf: "flex-end",
+    backgroundColor: "#4ECDC4",
   },
   otherMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    alignSelf: "flex-start",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
   },
   messageText: {
     fontSize: 16,
     marginBottom: 5,
   },
   ownMessageText: {
-    color: 'white',
+    color: "white",
   },
   otherMessageText: {
-    color: '#333',
+    color: "#333",
   },
   messageTimestamp: {
     fontSize: 11,
-    color: '#666',
-    alignSelf: 'flex-end',
+    color: "#666",
+    alignSelf: "flex-end",
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    flexDirection: "row",
+    alignItems: "flex-end",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     marginHorizontal: 20,
     marginBottom: 20,
     padding: 10,
@@ -332,7 +371,7 @@ const styles = StyleSheet.create({
   },
   messageInput: {
     flex: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderWidth: 1,
     borderRadius: 20,
     paddingHorizontal: 15,
@@ -342,13 +381,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sendButton: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: "#4ECDC4",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
   },
   sendButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });

@@ -1,9 +1,10 @@
-
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 // These will be set up through environment variables
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+const supabaseUrl =
+  process.env.EXPO_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseAnonKey =
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -33,7 +34,7 @@ export interface Match {
   id: string;
   user1_id: string;
   user2_id: string;
-  status: 'pending' | 'matched' | 'rejected';
+  status: "pending" | "matched" | "rejected";
   created_at: string;
 }
 
@@ -42,7 +43,7 @@ export interface Message {
   match_id: string;
   sender_id: string;
   content: string;
-  message_type: 'text' | 'video' | 'image';
+  message_type: "text" | "video" | "image";
   created_at: string;
   read_at?: string;
 }

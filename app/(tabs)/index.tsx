@@ -1,17 +1,16 @@
-
-import React from 'react';
+import React from "react";
 import { Image } from "expo-image";
 import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { HelloWave } from "@/components/HelloWave";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function HomeScreen() {
   return (
-    <LinearGradient colors={['#FF6B6B', '#4ECDC4']} style={styles.container}>
+    <LinearGradient colors={["#FF6B6B", "#4ECDC4"]} style={styles.container}>
       <ScrollView style={styles.scrollView}>
         {/* Welcome Header */}
         <ThemedView style={styles.welcomeContainer}>
@@ -27,15 +26,21 @@ export default function HomeScreen() {
         {/* Quick Stats */}
         <ThemedView style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <ThemedText type="subtitle" style={styles.statNumber}>2.5M+</ThemedText>
+            <ThemedText type="subtitle" style={styles.statNumber}>
+              2.5M+
+            </ThemedText>
             <ThemedText style={styles.statLabel}>Active Users</ThemedText>
           </View>
           <View style={styles.statItem}>
-            <ThemedText type="subtitle" style={styles.statNumber}>50K+</ThemedText>
+            <ThemedText type="subtitle" style={styles.statNumber}>
+              50K+
+            </ThemedText>
             <ThemedText style={styles.statLabel}>Matches Daily</ThemedText>
           </View>
           <View style={styles.statItem}>
-            <ThemedText type="subtitle" style={styles.statNumber}>95%</ThemedText>
+            <ThemedText type="subtitle" style={styles.statNumber}>
+              95%
+            </ThemedText>
             <ThemedText style={styles.statLabel}>Success Rate</ThemedText>
           </View>
         </ThemedView>
@@ -43,26 +48,38 @@ export default function HomeScreen() {
         {/* Action Buttons */}
         <ThemedView style={styles.actionSection}>
           <TouchableOpacity style={styles.primaryButton}>
-            <ThemedText style={styles.buttonText}>🔍 Start Discovering</ThemedText>
+            <ThemedText style={styles.buttonText}>
+              🔍 Start Discovering
+            </ThemedText>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.secondaryButton}>
-            <ThemedText style={styles.secondaryButtonText}>✨ Upgrade to Premium</ThemedText>
+            <ThemedText style={styles.secondaryButtonText}>
+              ✨ Upgrade to Premium
+            </ThemedText>
           </TouchableOpacity>
         </ThemedView>
 
         {/* Video Profile Section */}
         <ThemedView style={styles.videoSection}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>Your Video Profile</ThemedText>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            Your Video Profile
+          </ThemedText>
           <TouchableOpacity style={styles.videoUploadButton}>
-            <ThemedText style={styles.buttonText}>📹 Upload Video Intro</ThemedText>
+            <ThemedText style={styles.buttonText}>
+              📹 Upload Video Intro
+            </ThemedText>
           </TouchableOpacity>
-          <ThemedText style={styles.videoHint}>Record a 10-30 second video to showcase your personality!</ThemedText>
+          <ThemedText style={styles.videoHint}>
+            Record a 10-30 second video to showcase your personality!
+          </ThemedText>
         </ThemedView>
 
         {/* Recent Activity */}
         <ThemedView style={styles.activitySection}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>Recent Activity</ThemedText>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            Recent Activity
+          </ThemedText>
           <View style={styles.activityItem}>
             <ThemedText>🔥 3 new profile views today</ThemedText>
           </View>
@@ -87,13 +104,13 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 20,
     marginBottom: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
     padding: 25,
     borderRadius: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -101,110 +118,110 @@ const styles = StyleSheet.create({
   },
   welcomeTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FF6B6B',
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#FF6B6B",
+    textAlign: "center",
     marginBottom: 10,
   },
   welcomeSubtitle: {
     fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
+    color: "#666",
+    textAlign: "center",
     marginTop: 10,
   },
   statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginHorizontal: 20,
     marginBottom: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 20,
     borderRadius: 15,
   },
   statItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   statNumber: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FF6B6B',
+    fontWeight: "bold",
+    color: "#FF6B6B",
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: "#666",
     marginTop: 5,
   },
   actionSection: {
     marginHorizontal: 20,
     marginBottom: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 20,
     borderRadius: 15,
   },
   primaryButton: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: "#FF6B6B",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 15,
-    shadowColor: '#FF6B6B',
+    shadowColor: "#FF6B6B",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,
   },
   secondaryButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 2,
-    borderColor: '#4ECDC4',
+    borderColor: "#4ECDC4",
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   secondaryButtonText: {
-    color: '#4ECDC4',
+    color: "#4ECDC4",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   videoSection: {
     marginHorizontal: 20,
     marginBottom: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 20,
     borderRadius: 15,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   videoUploadButton: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: "#4ECDC4",
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 10,
   },
   videoHint: {
     fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    fontStyle: 'italic',
+    color: "#666",
+    textAlign: "center",
+    fontStyle: "italic",
   },
   activitySection: {
     marginHorizontal: 20,
     marginBottom: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 20,
     borderRadius: 15,
   },
@@ -212,9 +229,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 15,
     marginBottom: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
     borderRadius: 10,
     borderLeftWidth: 4,
-    borderLeftColor: '#FF6B6B',
+    borderLeftColor: "#FF6B6B",
   },
 });

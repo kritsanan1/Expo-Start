@@ -1,7 +1,6 @@
-
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { Session, User } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
 interface AuthContextType {
   user: User | null;
@@ -22,8 +21,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Check if Supabase is properly configured
-    if (!process.env.EXPO_PUBLIC_SUPABASE_URL || !process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY) {
-      console.warn('Supabase credentials not configured. Please set up environment variables.');
+    if (
+      !process.env.EXPO_PUBLIC_SUPABASE_URL ||
+      !process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
+    ) {
+      console.warn(
+        "Supabase credentials not configured. Please set up environment variables.",
+      );
       setLoading(false);
       return;
     }
@@ -57,15 +61,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Create user profile in our users table
     if (data.user) {
-      const { error: profileError } = await supabase
-        .from('users')
-        .insert([
-          {
-            id: data.user.id,
-            email: data.user.email,
-            ...userData,
-          },
-        ]);
+      const { error: profileError } = await supabase.from("users").insert([
+        {
+          id: data.user.id,
+          email: data.user.email,
+          ...userData,
+        },
+      ]);
 
       if (profileError) throw profileError;
     }
@@ -89,12 +91,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateProfile = async (updates: any) => {
-    if (!user) throw new Error('No user logged in');
+    if (!user) throw new Error("No user logged in");
 
     const { data, error } = await supabase
-      .from('users')
+      .from("users")
       .update(updates)
-      .eq('id', user.id)
+      .eq("id", user.id)
       .select()
       .single();
 
@@ -112,17 +114,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     updateProfile,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
