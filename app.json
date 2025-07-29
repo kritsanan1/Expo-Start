@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "expo-on-replit",
-    "slug": "expo-on-replit",
+    "slug": "lovematch",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "61e72f0a-bdd6-45e3-a570-6f478240f8e4"
+      }
+    },
+    "owner": "tourderwang"
   }
 }
