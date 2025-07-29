@@ -1,0 +1,30 @@
+
+User-agent: *
+Allow: /
+Allow: /explore
+Allow: /videos
+Disallow: /chat
+Disallow: /profile
+Disallow: /auth
+Disallow: /api/
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://lovematch-thailand.replit.app/sitemap.xml
+
+# Popular bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /

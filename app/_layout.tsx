@@ -12,6 +12,8 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SEOHead } from "@/components/SEOHead";
+import { Analytics, SecurityMonitoring } from "@/lib/analytics";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -25,6 +27,16 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      
+      // Initialize analytics and security monitoring
+      Analytics.getInstance().initialize();
+      SecurityMonitoring.setupCSPReporting();
+      
+      // Track app launch
+      Analytics.getInstance().trackEvent('app_launch', {
+        platform: 'mobile',
+        timestamp: new Date().toISOString()
+      });
     }
   }, [loaded]);
 
@@ -34,6 +46,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+      <SEOHead />
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
