@@ -3,7 +3,6 @@ import {
   StyleSheet, 
   View, 
   Text, 
-  PanGestureHandler, 
   TouchableOpacity,
   Dimensions,
   Animated,
