@@ -1,127 +1,94 @@
-
-import { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions, PanGestureHandler, State } from 'react-native';
+import { useState, useRef } from 'react';
+import { 
+  StyleSheet, 
+  View, 
+  Text, 
+  PanGestureHandler, 
+  TouchableOpacity,
+  Dimensions,
+  Animated,
+  Image
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  runOnJS,
-} from 'react-native-reanimated';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-const { width: screenWidth } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const mockProfiles = [
+interface Profile {
+  id: string;
+  name: string;
+  age: number;
+  bio: string;
+  distance: string;
+  image: string;
+  interests: string[];
+}
+
+const sampleProfiles: Profile[] = [
   {
-    id: 1,
-    name: 'Anna',
+    id: '1',
+    name: 'นิภา',
     age: 25,
-    bio: 'Love traveling and Thai food 🍜',
-    location: 'Bangkok',
-    videoUrl: 'https://example.com/video1',
-    interests: ['Travel', 'Food', 'Photography'],
+    bio: 'รักการเดินทาง ชอบดูหนัง และหาเพื่อนคุยที่ใช่ ❤️',
+    distance: '2 กม.',
+    image: '🌸',
+    interests: ['เดินทาง', 'ดูหนัง', 'กาแฟ']
   },
   {
-    id: 2,
-    name: 'Niran',
+    id: '2', 
+    name: 'ศิริ',
     age: 28,
-    bio: 'Photographer and coffee enthusiast ☕',
-    location: 'Chiang Mai',
-    videoUrl: 'https://example.com/video2',
-    interests: ['Photography', 'Coffee', 'Art'],
+    bio: 'อาจารย์มหาวิทยาลัย ชอบอ่านหนังสือ และทำอาหาร 🍳',
+    distance: '5 กม.',
+    image: '💝',
+    interests: ['อ่านหนังสือ', 'ทำอาหาร', 'โยคะ']
   },
   {
-    id: 3,
-    name: 'Ploy',
+    id: '3',
+    name: 'มณี',
     age: 24,
-    bio: 'Dancer and music lover 🎵',
-    location: 'Phuket',
-    videoUrl: 'https://example.com/video3',
-    interests: ['Dancing', 'Music', 'Beach'],
-  },
+    bio: 'นักเต้น รักดนตรี และชอบแมว 🐱',
+    distance: '1 กม.',
+    image: '🌺',
+    interests: ['เต้นรำ', 'ดนตรี', 'แมว']
+  }
 ];
 
 export default function DiscoverScreen() {
-  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
-  const [profiles] = useState(mockProfiles);
-  
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-  const scale = useSharedValue(1);
+  const [profiles, setProfiles] = useState(sampleProfiles);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const pan = useRef(new Animated.ValueXY()).current;
+  const scale = useRef(new Animated.Value(1)).current;
 
-  const currentProfile = profiles[currentProfileIndex];
+  const handleSwipe = (direction: 'left' | 'right') => {
+    const toValue = direction === 'left' ? -width : width;
 
-  const onSwipeComplete = (direction: 'left' | 'right') => {
-    if (direction === 'right') {
-      console.log('Liked:', currentProfile.name);
-    } else {
-      console.log('Passed:', currentProfile.name);
-    }
-    
-    // Move to next profile
-    if (currentProfileIndex < profiles.length - 1) {
-      setCurrentProfileIndex(currentProfileIndex + 1);
-    } else {
-      setCurrentProfileIndex(0); // Reset to first profile
-    }
-    
-    // Reset card position
-    translateX.value = 0;
-    translateY.value = 0;
-    scale.value = 1;
+    Animated.timing(pan, {
+      toValue: { x: toValue, y: 0 },
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => {
+      // Reset position and move to next profile
+      pan.setValue({ x: 0, y: 0 });
+      setCurrentIndex((prevIndex) => 
+        prevIndex + 1 >= profiles.length ? 0 : prevIndex + 1
+      );
+    });
   };
 
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: () => {
-      scale.value = withSpring(0.95);
-    },
-    onActive: (event) => {
-      translateX.value = event.translationX;
-      translateY.value = event.translationY;
-    },
-    onEnd: (event) => {
-      const shouldSwipe = Math.abs(event.translationX) > screenWidth * 0.3;
-      
-      if (shouldSwipe) {
-        const direction = event.translationX > 0 ? 'right' : 'left';
-        translateX.value = withSpring(event.translationX > 0 ? screenWidth : -screenWidth);
-        runOnJS(onSwipeComplete)(direction);
-      } else {
-        translateX.value = withSpring(0);
-        translateY.value = withSpring(0);
-      }
-      
-      scale.value = withSpring(1);
-    },
-  });
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const rotateZ = (translateX.value / screenWidth) * 30;
-    
-    return {
-      transform: [
-        { translateX: translateX.value },
-        { translateY: translateY.value },
-        { rotateZ: `${rotateZ}deg` },
-        { scale: scale.value },
-      ],
-    };
-  });
+  const currentProfile = profiles[currentIndex];
 
   if (!currentProfile) {
     return (
       <LinearGradient colors={['#FF6B6B', '#4ECDC4']} style={styles.container}>
-        <ThemedView style={styles.noMoreCards}>
-          <ThemedText type="title" style={styles.noMoreText}>No more profiles!</ThemedText>
-          <TouchableOpacity 
-            style={styles.resetButton}
-            onPress={() => setCurrentProfileIndex(0)}
-          >
-            <ThemedText style={styles.resetButtonText}>Start Over</ThemedText>
-          </TouchableOpacity>
+        <ThemedView style={styles.emptyContainer}>
+          <ThemedText type="title" style={styles.emptyTitle}>
+            ไม่มีโปรไฟล์ใหม่! 🎉
+          </ThemedText>
+          <ThemedText style={styles.emptyText}>
+            กลับมาดูใหม่ภายหลังนะ
+          </ThemedText>
         </ThemedView>
       </LinearGradient>
     );
@@ -131,59 +98,80 @@ export default function DiscoverScreen() {
     <LinearGradient colors={['#FF6B6B', '#4ECDC4']} style={styles.container}>
       {/* Header */}
       <ThemedView style={styles.header}>
-        <ThemedText type="title" style={styles.headerTitle}>Discover</ThemedText>
-        <ThemedText style={styles.headerSubtitle}>Swipe right to like, left to pass</ThemedText>
+        <ThemedText type="title" style={styles.headerTitle}>
+          Discover 💕
+        </ThemedText>
+        <ThemedText style={styles.headerSubtitle}>
+          ค้นหาคนที่ใช่สำหรับคุณ
+        </ThemedText>
       </ThemedView>
 
       {/* Profile Card */}
       <View style={styles.cardContainer}>
-        <PanGestureHandler onGestureEvent={gestureHandler}>
-          <Animated.View style={[styles.card, animatedStyle]}>
-            <View style={styles.videoContainer}>
-              <ThemedText style={styles.videoPlaceholder}>📹 Video Profile</ThemedText>
-              <ThemedText style={styles.videoHint}>Tap to play</ThemedText>
+        <Animated.View
+          style={[
+            styles.card,
+            {
+              transform: [
+                { translateX: pan.x },
+                { translateY: pan.y },
+                { scale: scale }
+              ]
+            }
+          ]}
+        >
+          <View style={styles.imageContainer}>
+            <Text style={styles.profileImage}>{currentProfile.image}</Text>
+          </View>
+
+          <View style={styles.profileInfo}>
+            <ThemedText type="subtitle" style={styles.profileName}>
+              {currentProfile.name}, {currentProfile.age}
+            </ThemedText>
+            <ThemedText style={styles.distance}>
+              📍 {currentProfile.distance}
+            </ThemedText>
+            <ThemedText style={styles.bio}>
+              {currentProfile.bio}
+            </ThemedText>
+
+            <View style={styles.interestsContainer}>
+              {currentProfile.interests.map((interest, index) => (
+                <View key={index} style={styles.interestTag}>
+                  <ThemedText style={styles.interestText}>{interest}</ThemedText>
+                </View>
+              ))}
             </View>
-            
-            <View style={styles.profileInfo}>
-              <ThemedText type="title" style={styles.profileName}>
-                {currentProfile.name}, {currentProfile.age}
-              </ThemedText>
-              <ThemedText style={styles.profileLocation}>📍 {currentProfile.location}</ThemedText>
-              <ThemedText style={styles.profileBio}>{currentProfile.bio}</ThemedText>
-              
-              <View style={styles.interestsContainer}>
-                {currentProfile.interests.map((interest, index) => (
-                  <View key={index} style={styles.interestTag}>
-                    <ThemedText style={styles.interestText}>{interest}</ThemedText>
-                  </View>
-                ))}
-              </View>
-            </View>
-          </Animated.View>
-        </PanGestureHandler>
+          </View>
+        </Animated.View>
       </View>
 
       {/* Action Buttons */}
-      <View style={styles.actionButtons}>
+      <View style={styles.actionContainer}>
         <TouchableOpacity 
           style={[styles.actionButton, styles.passButton]}
-          onPress={() => onSwipeComplete('left')}
+          onPress={() => handleSwipe('left')}
         >
-          <ThemedText style={styles.actionButtonText}>❌</ThemedText>
+          <Text style={styles.actionIcon}>❌</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={[styles.actionButton, styles.superLikeButton]}
-        >
-          <ThemedText style={styles.actionButtonText}>⭐</ThemedText>
+
+        <TouchableOpacity style={styles.superLikeButton}>
+          <Text style={styles.actionIcon}>⭐</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity 
           style={[styles.actionButton, styles.likeButton]}
-          onPress={() => onSwipeComplete('right')}
+          onPress={() => handleSwipe('right')}
         >
-          <ThemedText style={styles.actionButtonText}>💕</ThemedText>
+          <Text style={styles.actionIcon}>💕</Text>
         </TouchableOpacity>
+      </View>
+
+      {/* Progress Indicator */}
+      <View style={styles.progressContainer}>
+        <Text style={styles.progressText}>
+          {currentIndex + 1} / {profiles.length}
+        </Text>
       </View>
     </LinearGradient>
   );
@@ -218,75 +206,70 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   card: {
-    width: screenWidth - 40,
-    height: '70%',
+    width: width * 0.85,
+    height: height * 0.65,
     backgroundColor: 'white',
     borderRadius: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowRadius: 8,
     elevation: 8,
-    overflow: 'hidden',
   },
-  videoContainer: {
-    flex: 1,
+  imageContainer: {
+    height: '50%',
     backgroundColor: '#f0f0f0',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  videoPlaceholder: {
-    fontSize: 48,
-    marginBottom: 10,
-  },
-  videoHint: {
-    fontSize: 16,
-    color: '#666',
+  profileImage: {
+    fontSize: 120,
   },
   profileInfo: {
     padding: 20,
-    backgroundColor: 'white',
+    flex: 1,
   },
   profileName: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 5,
+    marginBottom: 8,
   },
-  profileLocation: {
+  distance: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 10,
+    marginBottom: 12,
   },
-  profileBio: {
+  bio: {
     fontSize: 16,
-    color: '#333',
+    color: '#444',
+    lineHeight: 22,
     marginBottom: 15,
   },
   interestsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    gap: 8,
   },
   interestTag: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: '#FF6B6B',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 15,
-    marginRight: 8,
-    marginBottom: 8,
   },
   interestText: {
     color: 'white',
     fontSize: 12,
     fontWeight: 'bold',
   },
-  actionButtons: {
+  actionContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 40,
-    paddingHorizontal: 20,
-    gap: 20,
+    paddingVertical: 30,
+    gap: 25,
   },
   actionButton: {
     width: 60,
@@ -301,39 +284,54 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   passButton: {
-    backgroundColor: '#FF6B6B',
-  },
-  superLikeButton: {
-    backgroundColor: '#FFD700',
+    backgroundColor: '#FF4458',
   },
   likeButton: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: '#66D7A2',
   },
-  actionButtonText: {
+  superLikeButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#4FC3F7',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  actionIcon: {
     fontSize: 24,
   },
-  noMoreCards: {
+  progressContainer: {
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  progressText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    margin: 20,
+    marginHorizontal: 20,
     borderRadius: 20,
   },
-  noMoreText: {
-    fontSize: 24,
-    marginBottom: 20,
-    color: '#333',
-  },
-  resetButton: {
-    backgroundColor: '#FF6B6B',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 25,
-  },
-  resetButtonText: {
-    color: 'white',
-    fontSize: 16,
+  emptyTitle: {
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#FF6B6B',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
   },
 });
