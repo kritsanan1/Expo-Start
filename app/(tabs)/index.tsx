@@ -1,80 +1,224 @@
-import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { Image } from "expo-image";
+import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
+    <LinearGradient
+      colors={['#FF6B6B', '#4ECDC4']}
+      style={styles.container}
     >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Replit + Expo</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">
-            npm run reset-project
-          </ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Header */}
+        <ThemedView style={styles.header}>
+          <ThemedText type="title" style={styles.title}>LoveMatch Thailand 💕</ThemedText>
+          <ThemedText style={styles.subtitle}>Active Matches: 1,000+</ThemedText>
+        </ThemedView>
+
+        {/* Quick Match Section */}
+        <ThemedView style={styles.quickMatchSection}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>Quick Match</ThemedText>
+          <TouchableOpacity style={styles.quickMatchButton}>
+            <ThemedText style={styles.buttonText}>Find Your Match Now ✨</ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
+
+        {/* Social Media Sync */}
+        <ThemedView style={styles.socialSection}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>Connect Your Social Media</ThemedText>
+          
+          <View style={styles.socialButtonsContainer}>
+            <TouchableOpacity style={[styles.socialButton, styles.facebookButton]}>
+              <ThemedText style={styles.socialButtonText}>📘 Facebook</ThemedText>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[styles.socialButton, styles.tiktokButton]}>
+              <ThemedText style={styles.socialButtonText}>🎵 TikTok</ThemedText>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[styles.socialButton, styles.instagramButton]}>
+              <ThemedText style={styles.socialButtonText}>📷 Instagram</ThemedText>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[styles.socialButton, styles.twitterButton]}>
+              <ThemedText style={styles.socialButtonText}>🐦 Twitter</ThemedText>
+            </TouchableOpacity>
+          </View>
+        </ThemedView>
+
+        {/* Video Profile Section */}
+        <ThemedView style={styles.videoSection}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>Your Video Profile</ThemedText>
+          <TouchableOpacity style={styles.videoUploadButton}>
+            <ThemedText style={styles.buttonText}>📹 Upload Video Intro</ThemedText>
+          </TouchableOpacity>
+          <ThemedText style={styles.videoHint}>Record a 10-30 second video to showcase your personality!</ThemedText>
+        </ThemedView>
+
+        {/* Recent Activity */}
+        <ThemedView style={styles.activitySection}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>Recent Activity</ThemedText>
+          <View style={styles.activityItem}>
+            <ThemedText>🔥 3 new profile views today</ThemedText>
+          </View>
+          <View style={styles.activityItem}>
+            <ThemedText>💝 2 new matches waiting</ThemedText>
+          </View>
+          <View style={styles.activityItem}>
+            <ThemedText>💬 1 new message received</ThemedText>
+          </View>
+        </ThemedView>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
+  container: {
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  scrollContent: {
+    paddingTop: 60,
+    paddingBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+  header: {
+    alignItems: 'center',
+    marginBottom: 30,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    marginHorizontal: 20,
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FF6B6B',
+    marginBottom: 5,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+  },
+  quickMatchSection: {
+    marginHorizontal: 20,
+    marginBottom: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#333',
+  },
+  quickMatchButton: {
+    backgroundColor: '#FF6B6B',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  socialSection: {
+    marginHorizontal: 20,
+    marginBottom: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  socialButtonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  socialButton: {
+    width: '48%',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  facebookButton: {
+    backgroundColor: '#1877F2',
+  },
+  tiktokButton: {
+    backgroundColor: '#000000',
+  },
+  instagramButton: {
+    backgroundColor: '#E4405F',
+  },
+  twitterButton: {
+    backgroundColor: '#1DA1F2',
+  },
+  socialButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  videoSection: {
+    marginHorizontal: 20,
+    marginBottom: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  videoUploadButton: {
+    backgroundColor: '#4ECDC4',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  videoHint: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+  activitySection: {
+    marginHorizontal: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  activityItem: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
   },
 });
